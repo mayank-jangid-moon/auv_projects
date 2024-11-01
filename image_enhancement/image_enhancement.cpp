@@ -107,7 +107,8 @@ cv::Mat gray_balance(const cv::Mat& image) {
     vector<float> satLevel = { 0.005f * ratio[0], 0.005f * ratio[1], 0.005f * ratio[2] };
 
     cv::Mat output = cv::Mat::zeros(image.size(), image.type());
-
+    
+#pragma omp parallel for
     for (int ch = 0; ch < 3; ch++) {
         cv::Mat temp;
         channels[ch].convertTo(temp, CV_32F);
