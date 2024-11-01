@@ -8,42 +8,6 @@
 
 using namespace std;
 
-/*    //ORIGINAL FUNCTION
-cv::Mat redCompensate(const cv::Mat& img, int window) {
-    float alpha = 1.0f;
-    cv::Mat r, g, b;
-    vector<cv::Mat> channels;
-    cv::split(img, channels);
-    r = channels[2];
-    g = channels[1];
-    b = channels[0];
-
-    r.convertTo(r, CV_32F, 1.0 / 255.0);
-    g.convertTo(g, CV_32F, 1.0 / 255.0);
-    b.convertTo(b, CV_32F, 1.0 / 255.0);
-
-    int height = img.rows, width = img.cols;
-    int padsize = (window - 1) / 2;
-    cv::Mat padr, padg;
-    cv::copyMakeBorder(r, padr, padsize, padsize, padsize, padsize, cv::BORDER_REFLECT);
-    cv::copyMakeBorder(g, padg, padsize, padsize, padsize, padsize, cv::BORDER_REFLECT);
-
-    cv::Mat ret = img.clone();
-
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            cv::Mat slider = padr(cv::Rect(j, i, window, window));
-            cv::Mat slideg = padg(cv::Rect(j, i, window, window));
-            float r_mean = cv::mean(slider)[0];
-            float g_mean = cv::mean(slideg)[0];
-            float Irc = r.at<float>(i, j) + alpha * (g_mean - r_mean) * (1 - r.at<float>(i, j)) * g.at<float>(i, j);
-            ret.at<cv::Vec3b>(i, j)[2] = static_cast<uchar>(Irc * 255);
-        }
-    }
-    return ret;
-}
-*/
-
 cv::Mat redCompensate(const cv::Mat& img, int window) {     //YUG BHAIYA THA LIFE SAVER FT. GPT
     float alpha = 1.0f;
     cv::Mat r, g, b;
@@ -141,7 +105,7 @@ cv::Mat gammaCorrection(const cv::Mat& img, float alpha, float gamma) {
 int main() {
     auto start = chrono::high_resolution_clock::now();
 
-    cv::Mat img = cv::imread("test/img2_720.jpg");
+    cv::Mat img = cv::imread("test/ship_1080.jpg");
     //cv::Mat img = org_img.clone();
     //cv::imshow("Input image", img);
 
@@ -165,6 +129,42 @@ int main() {
     return 0;
 }
 
+
+/*    //ORIGINAL FUNCTION
+cv::Mat redCompensate(const cv::Mat& img, int window) {
+    float alpha = 1.0f;
+    cv::Mat r, g, b;
+    vector<cv::Mat> channels;
+    cv::split(img, channels);
+    r = channels[2];
+    g = channels[1];
+    b = channels[0];
+
+    r.convertTo(r, CV_32F, 1.0 / 255.0);
+    g.convertTo(g, CV_32F, 1.0 / 255.0);
+    b.convertTo(b, CV_32F, 1.0 / 255.0);
+
+    int height = img.rows, width = img.cols;
+    int padsize = (window - 1) / 2;
+    cv::Mat padr, padg;
+    cv::copyMakeBorder(r, padr, padsize, padsize, padsize, padsize, cv::BORDER_REFLECT);
+    cv::copyMakeBorder(g, padg, padsize, padsize, padsize, padsize, cv::BORDER_REFLECT);
+
+    cv::Mat ret = img.clone();
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            cv::Mat slider = padr(cv::Rect(j, i, window, window));
+            cv::Mat slideg = padg(cv::Rect(j, i, window, window));
+            float r_mean = cv::mean(slider)[0];
+            float g_mean = cv::mean(slideg)[0];
+            float Irc = r.at<float>(i, j) + alpha * (g_mean - r_mean) * (1 - r.at<float>(i, j)) * g.at<float>(i, j);
+            ret.at<cv::Vec3b>(i, j)[2] = static_cast<uchar>(Irc * 255);
+        }
+    }
+    return ret;
+}
+*/
 
 /*  //YUG BHAIYA KA CODE
 #include <opencv2/opencv.hpp>
